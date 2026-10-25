@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SM Garage | ECU Yazılım & Mekanik Onarım</title>
+  <meta name="description" content="SM Garage — chip tuning ve ECU yazılımdan motor revizyonu, şanzıman, turbo, fren ve süspansiyona kadar ECU yazılım ve mekanik onarım tek çatı altında.">
+  <meta name="theme-color" content="#07080a">
+  <meta property="og:image" content="img/logo.png">
+  <link rel="apple-touch-icon" href="img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__panel preloader__panel--a"></div>
+    <div class="preloader__panel preloader__panel--b"></div>
+    <div class="preloader__inner">
+      <div class="preloader__logo"><img src="img/logo.png" alt="" width="378" height="163"><i class="preloader__shine"></i></div>
+      <div class="preloader__bar"><i></i></div>
+      <div class="preloader__meta">
+        <span>MOTOR ISINIYOR</span>
+        <span class="preloader__count"><b id="loadCount">0</b>%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CURSOR ============ -->
+  <div class="cursor" aria-hidden="true"><div class="cursor__ring"></div><div class="cursor__dot"></div><span class="cursor__label"></span></div>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="header">
+    <div class="topbar">
+      <div class="container topbar__inner">
+        <div class="topbar__info">
+          <a href="tel:+905425731480"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>0542 573 14 80 · Serger Sönmez</a>
+          <a href="mailto:info@smgarage.com.tr"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>info@smgarage.com.tr</a>
+          <span class="topbar__hours"><i class="dot-live"></i>Pzt – Cmt · 08:00 – 19:00</span>
+        </div>
+        <div class="topbar__social">
+          <a href="https://www.instagram.com/smgaragemaslak/" target="_blank" rel="noopener" aria-label="Instagram @smgaragemaslak"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM21.9 7.1c-.1-1.6-.4-3-1.6-4.2S17.6 1.3 16 1.2C14.3 1.1 9.7 1.1 8 1.2 6.4 1.3 5 1.6 3.8 2.8S2.2 5.5 2.1 7.1C2 8.8 2 13.2 2.1 14.9c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.7.1 6.3.1 8 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.7.1-6.1.2-7.8zm-2.2 9.9a3.3 3.3 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.7.4s-4.4.1-5.7-.4A3.3 3.3 0 0 1 4.7 17c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7A3.3 3.3 0 0 1 6.5 3.8c1.3-.5 4.3-.4 5.7-.4s4.4-.1 5.7.4a3.3 3.3 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.500A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.500 8.9.500 8.9.500s7 0 8.9-.500a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.2zM9.7 15.1V8.9L15.4 12z"/></svg></a>
+          <a href="https://wa.me/905425731480" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8.2 8.2 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.4 13.4 0 0 0 5.2 4.6c1.9.8 2.7.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5 0-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zM12 0a12 12 0 0 0-10.3 18L0 24l6.2-1.6A12 12 0 1 0 12 0z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="container nav__inner">
+        <a href="#top" class="logo" data-cursor="hover" aria-label="SM Garage anasayfa"><img src="img/logo.png" alt="SM Garage — Araç Bakım Onarım Servisi" width="378" height="163"></a>
+        <ul class="nav__links">
+          <li><a href="#top" data-text="Anasayfa">Anasayfa</a></li>
+          <li><a href="#hakkimizda" data-text="Kurumsal">Kurumsal</a></li>
+          <li><a href="#hizmetler" data-text="Hizmetlerimiz">Hizmetlerimiz</a></li>
+          <li><a href="#hesaplama" data-text="Tuning Hesaplama">Tuning Hesaplama</a></li>
+          <li><a href="#galeri" data-text="Galeri">Galeri</a></li>
+          <li><a href="#iletisim" data-text="İletişim">İletişim</a></li>
+        </ul>
+        <button class="btn btn--primary btn--sm magnetic js-open-modal" data-cursor="hover"><span>Randevu Al</span></button>
+        <button class="burger" id="burger" aria-label="Menüyü aç"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mmenu" id="mmenu">
+    <div class="mmenu__bg"></div>
+    <ul class="mmenu__links">
+      <li><a href="#top"><em>01</em>Anasayfa</a></li>
+      <li><a href="#hakkimizda"><em>02</em>Kurumsal</a></li>
+      <li><a href="#hizmetler"><em>03</em>Hizmetlerimiz</a></li>
+      <li><a href="#hesaplama"><em>04</em>Hesaplama</a></li>
+      <li><a href="#galeri"><em>05</em>Galeri</a></li>
+      <li><a href="#iletisim"><em>06</em>İletişim</a></li>
+    </ul>
+    <div class="mmenu__foot">
+      <a href="tel:+905425731480">0542 573 14 80 · Serger Sönmez</a>
+      <button class="btn btn--primary js-open-modal"><span>Randevu Al</span></button>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <canvas class="hero__canvas" id="heroCanvas"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__bigtext" aria-hidden="true">PERFORMANCE</div>
+
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <div class="hero__eyebrow"><span class="line"></span>ECU Yazılım · Mekanik Onarım</div>
+          <h1 class="hero__title">
+            <span class="hero__row"><span data-split>Gücü</span></span>
+            <span class="hero__row"><span data-split class="stroke">Yeniden</span></span>
+            <span class="hero__row"><span data-split class="accent">Tanımla.</span></span>
+          </h1>
+          <p class="hero__lead">Yazılımdan motora, aracınızın her ihtiyacı tek çatı altında. Dyno ölçümlü ECU yazılım, bilgisayarlı arıza tespit ve uzman ustalarla <b>mekanik onarım</b>.</p>
+          <div class="hero__ctas">
+            <button class="btn btn--primary btn--lg magnetic js-open-modal" data-cursor="hover"><span>Hemen Randevu Al</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <a href="#hesaplama" class="btn btn--ghost btn--lg magnetic" data-cursor="hover"><span>Güç Hesapla</span></a>
+          </div>
+          <div class="hero__mini">
+            <div><b data-count="30" data-prefix="+%">0</b><span>Güç artışı</span></div>
+            <div><b data-count="20" data-prefix="%">0</b><span>Yakıt tasarrufu</span></div>
+            <div><b>ECU+</b><span>Mekanik tek çatı altında</span></div>
+          </div>
+        </div>
+
+        <div class="hero__visual" id="gauge" data-cursor="rev">
+          <div class="gauge">
+            <svg class="gauge__svg" viewBox="0 0 400 400">
+              <defs>
+                <linearGradient id="gArc" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#ff7a1a"/>
+                  <stop offset="1" stop-color="#ff1f3d"/>
+                </linearGradient>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="6" result="b"/>
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <circle cx="200" cy="200" r="190" class="gauge__bezel"/>
+              <path class="gauge__track" id="gTrack"/>
+              <path class="gauge__red" id="gRed"/>
+              <path class="gauge__fill" id="gFill" filter="url(#glow)"/>
+              <g id="gTicks"></g>
+              <g id="gNums"></g>
+              <g class="gauge__needle" id="gNeedle">
+                <path d="M196 200 L200 52 L204 200 Z" />
+                <circle cx="200" cy="200" r="16" class="gauge__hub"/>
+                <circle cx="200" cy="200" r="6" class="gauge__hubdot"/>
+              </g>
+            </svg>
+            <img class="gauge__brand" src="img/logo.png" alt="" width="378" height="163">
+            <div class="gauge__readout">
+              <div class="gauge__rpm"><b id="rpmVal">0</b><span>RPM ×1</span></div>
+              <div class="gauge__hp"><b id="hpVal">0</b><span>HP</span></div>
+            </div>
+            <div class="gauge__hint">Devirlemek için üzerine gel</div>
+          </div>
+          <div class="hero__badge hero__badge--a"><span>ECU Stage 1</span><b>+%30</b></div>
+          <div class="hero__badge hero__badge--b"><span>Mekanik</span><b>Tam Servis</b></div>
+        </div>
+      </div>
+
+      <a href="#hakkimizda" class="hero__scroll" aria-label="Aşağı kaydır"><span>Kaydır</span><i></i></a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee">
+        <span>Chip Tuning</span><i>✦</i><span>Motor Revizyon</span><i>✦</i><span>ECU Remap</span><i>✦</i><span>Şanzıman Onarımı</span><i>✦</i><span>DPF · EGR · AdBlue</span><i>✦</i><span>Turbo & Enjektör</span><i>✦</i><span>Arıza Tespit</span><i>✦</i><span>Fren & Süspansiyon</span><i>✦</i>
+        <span>Chip Tuning</span><i>✦</i><span>Motor Revizyon</span><i>✦</i><span>ECU Remap</span><i>✦</i><span>Şanzıman Onarımı</span><i>✦</i><span>DPF · EGR · AdBlue</span><i>✦</i><span>Turbo & Enjektör</span><i>✦</i><span>Arıza Tespit</span><i>✦</i><span>Fren & Süspansiyon</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about section" id="hakkimizda">
+      <div class="section__num" aria-hidden="true">01</div>
+      <div class="container about__inner">
+        <div class="about__visual" data-reveal-clip>
+          <div class="about__card">
+            <svg class="about__circuit" viewBox="0 0 400 480" aria-hidden="true">
+              <g class="circuit">
+                <path d="M20 60 H140 V140 H260"/><path d="M20 120 H90 V220 H200"/><path d="M380 80 H300 V160 H240"/>
+                <path d="M380 220 H320 V300 H220"/><path d="M40 420 H140 V340 H200"/><path d="M360 440 H280 V360 H230"/>
+                <path d="M200 20 V100"/><path d="M200 460 V380"/>
+              </g>
+              <g class="circuit-nodes">
+                <circle cx="20" cy="60" r="5"/><circle cx="20" cy="120" r="5"/><circle cx="380" cy="80" r="5"/><circle cx="380" cy="220" r="5"/>
+                <circle cx="40" cy="420" r="5"/><circle cx="360" cy="440" r="5"/><circle cx="200" cy="20" r="5"/><circle cx="200" cy="460" r="5"/>
+              </g>
+              <rect class="chip" x="140" y="170" width="120" height="140" rx="10"/>
+              <g class="chip-pins">
+                <path d="M140 190h-14M140 210h-14M140 230h-14M140 250h-14M140 270h-14M140 290h-14M260 190h14M260 210h14M260 230h14M260 250h14M260 270h14M260 290h14"/>
+              </g>
+              <text x="200" y="235" class="chip-label">ECU</text>
+              <text x="200" y="262" class="chip-sub">SM-TUNE v4</text>
+            </svg>
+            <div class="about__year">
+              <b data-suffix="+"></b><!-- Tecrübe yılını buraya yazın, örn: data-count="15" ve içine 0 -->
+              <span>Yıllık<br>Tecrübe</span>
+            </div>
+          </div>
+        </div>
+        <div class="about__content">
+          <div class="eyebrow" data-reveal><span class="line"></span>SM Garage Hakkında</div>
+          <h2 class="title" data-lines>Yazılımda usta,<br><em>mekanikte uzman.</em></h2>
+          <p class="about__scrub" id="aboutScrub">Modern bir araç hem yazılımıyla hem mekaniğiyle yaşar. ECU; enjektör, turbo ve EGR gibi bileşenleri yöneten aracın beynidir, ama sağlıklı çalışması için motorun, şanzımanın ve yürüyen aksamın da kusursuz olması gerekir. SM Garage olarak arızayı bilgisayarla tespit ediyor, mekanik onarımı uzman ustalarımızla yapıyor, gerektiğinde yazılımı motorunuza özel olarak yeniden kalibre ediyoruz.</p>
+          <ul class="about__list">
+            <li data-reveal><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>ECU yazılım: orijinal dosya yedeği & tam geri dönüş</li>
+            <li data-reveal><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Mekanik onarım: motor, şanzıman, turbo, fren & süspansiyon</li>
+            <li data-reveal><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Bilgisayarlı arıza tespit: doğru teşhis, gereksiz masraf yok</li>
+          </ul>
+          <a href="#hizmetler" class="link-arrow" data-reveal data-cursor="hover">Hizmetlerimizi keşfet <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES (horizontal pin) ============ -->
+    <section class="services" id="hizmetler">
+      <div class="services__pin">
+        <div class="services__head container">
+          <div>
+            <div class="eyebrow" data-reveal><span class="line"></span>ECU Yazılım & Mekanik Onarım</div>
+            <h2 class="title" data-lines>Hizmet<em>lerimiz</em></h2>
+          </div>
+          <div class="services__progress"><span id="svcCur">01</span><i><b id="svcBar"></b></i><span>08</span></div>
+        </div>
+        <div class="services__track" id="svcTrack">
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">01</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><rect x="18" y="18" width="28" height="28" rx="4"/><path d="M24 18v-8M32 18v-8M40 18v-8M24 54v-8M32 54v-8M40 54v-8M18 24h-8M18 32h-8M18 40h-8M54 24h-8M54 32h-8M54 40h-8"/><path d="M27 36l5-8 5 8"/></svg></div>
+            <span class="svc__tag">ECU</span>
+            <h3>Chip Tuning</h3>
+            <p>Motor haritalarının dyno ölçümüyle motorunuza özel optimize edilmesi; daha fazla güç, tork ve verim.</p>
+            <ul><li>Stage 1 / Stage 2</li><li>Dyno raporu</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">02</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><path d="M8 46h48"/><path d="M12 46V30M22 46V20M32 46V26M42 46V14M52 46V22"/><circle cx="42" cy="10" r="3"/></svg></div>
+            <span class="svc__tag">ECU</span>
+            <h3>ECU Remap & Custom Map</h3>
+            <p>OBD ve bench yöntemiyle okuma-yazma; launch control, pops & bangs, start-stop iptali gibi özel yazılımlar.</p>
+            <ul><li>OBD / Bench</li><li>Custom Map</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">03</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><rect x="10" y="22" width="44" height="20" rx="6"/><path d="M18 22v20M26 22v20M34 22v20M42 22v20"/><path d="M4 32h6M54 32h6"/></svg></div>
+            <span class="svc__tag">ECU + Mekanik</span>
+            <h3>DPF · EGR · AdBlue</h3>
+            <p>Partikül filtresi, EGR ve AdBlue arızalarında yazılımsal çözüm, temizlik ve mekanik onarım.</p>
+            <ul><li>DPF temizleme</li><li>Arıza çözümü</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">04</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="32" rx="4"/><path d="M14 30h8l4-8 6 14 4-6h14"/><path d="M24 52h16M32 44v8"/></svg></div>
+            <span class="svc__tag">Teşhis</span>
+            <h3>Bilgisayarlı Arıza Tespit</h3>
+            <p>Güncel diagnostik cihazlarla hata kodu okuma, canlı veri analizi ve elektrik/elektronik arıza tespiti.</p>
+            <ul><li>Hata kodu</li><li>Canlı veri</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">05</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><rect x="20" y="8" width="24" height="20" rx="3"/><path d="M20 16h24M20 22h24"/><path d="M32 28v12"/><circle cx="32" cy="46" r="8"/><circle cx="32" cy="46" r="2"/></svg></div>
+            <span class="svc__tag">Mekanik</span>
+            <h3>Motor Revizyon & Onarım</h3>
+            <p>Silindir kapak, conta, triger/zincir seti, yağ kaçağı ve kompresyon sorunlarında komple motor onarımı.</p>
+            <ul><li>Motor revizyon</li><li>Triger seti</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">06</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><circle cx="28" cy="34" r="16"/><path d="M28 34l8-6M28 34l-2 10M28 34l-10-4"/><path d="M44 30h12v10H44"/></svg></div>
+            <span class="svc__tag">Mekanik</span>
+            <h3>Turbo & Enjektör</h3>
+            <p>Turbo revizyonu, enjektör test ve temizliği, yakıt sistemi arızalarında hassas onarım.</p>
+            <ul><li>Turbo revizyon</li><li>Enjektör test</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">07</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M15 49l6-6M43 21l6-6"/></svg></div>
+            <span class="svc__tag">Yazılım + Mekanik</span>
+            <h3>Şanzıman & Debriyaj</h3>
+            <p>DSG ve otomatik şanzıman yazılımı ve bakımı, debriyaj seti, volan ve şanzıman onarımı.</p>
+            <ul><li>DSG / ZF</li><li>Debriyaj seti</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc" data-tilt>
+            <div class="svc__glow"></div>
+            <span class="svc__num">08</span>
+            <div class="svc__icon"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div>
+            <span class="svc__tag">Mekanik</span>
+            <h3>Bakım · Fren · Süspansiyon</h3>
+            <p>Periyodik bakım, yağ ve filtre değişimi, fren sistemi, amortisör ve ön düzen işlemleri.</p>
+            <ul><li>Periyodik bakım</li><li>Fren & amortisör</li></ul>
+            <button class="svc__more js-open-modal" data-cursor="hover">Randevu Al →</button>
+          </article>
+          <article class="svc svc--cta">
+            <h3>Aracınız için en doğru çözümü birlikte bulalım.</h3>
+            <button class="btn btn--primary btn--lg magnetic js-open-modal" data-cursor="hover"><span>Ücretsiz Danışın</span></button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats section" id="performans">
+      <div class="stats__bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="stats__head">
+          <div class="eyebrow" data-reveal><span class="line"></span>Rakamlarla SM Garage</div>
+          <h2 class="title" data-lines>SM Garage ile<br><em>yüksek performans.</em></h2>
+        </div>
+        <div class="stats__grid">
+          <div class="stat" data-reveal>
+            <svg class="stat__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="p" cx="60" cy="60" r="52" data-pct="30"/></svg>
+            <div class="stat__val"><b data-count="30" data-prefix="%">0</b></div>
+            <h4>Güç Artışı</h4><p>Motor tipine göre %30'a varan güç artışı.</p>
+          </div>
+          <div class="stat" data-reveal>
+            <svg class="stat__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="p" cx="60" cy="60" r="52" data-pct="20"/></svg>
+            <div class="stat__val"><b data-count="20" data-prefix="%">0</b></div>
+            <h4>Yakıt Tasarrufu</h4><p>Doğru kalibrasyonla %20'ye varan tasarruf.</p>
+          </div>
+          <div class="stat" data-reveal>
+            <svg class="stat__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="p" cx="60" cy="60" r="52" data-pct="80"/></svg>
+            <div class="stat__val"><b data-count="8">0</b></div>
+            <h4>Hizmet Alanı</h4><p>ECU yazılımdan motor, şanzıman ve fren onarımına.</p>
+          </div>
+          <div class="stat" data-reveal>
+            <svg class="stat__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="p" cx="60" cy="60" r="52" data-pct="86"/></svg>
+            <div class="stat__val"><b data-count="6" data-suffix=" Gün">0</b></div>
+            <h4>Haftada Açık</h4><p>Pazartesi – Cumartesi, 08:00 – 19:00.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DYNO ============ -->
+    <section class="dyno section" id="dyno">
+      <div class="section__num" aria-hidden="true">02</div>
+      <div class="container dyno__inner">
+        <div class="dyno__content">
+          <div class="eyebrow" data-reveal><span class="line"></span>Dyno Ölçüm</div>
+          <h2 class="title" data-lines>Tahmin değil,<br><em>ölçüm.</em></h2>
+          <p data-reveal>Her işlem öncesi ve sonrası aracınız dinamometrede ölçülür. Grafik üzerinde gezinerek farkı kendiniz görün.</p>
+          <div class="dyno__legend" data-reveal>
+            <span class="l l--stock"><i></i>Orijinal</span>
+            <span class="l l--tuned"><i></i>SM Stage 1</span>
+          </div>
+          <div class="dyno__read" data-reveal>
+            <div><span>Devir</span><b id="dRpm">—</b></div>
+            <div><span>Orijinal</span><b id="dStock">—</b></div>
+            <div><span>Stage 1</span><b id="dTuned" class="accent">—</b></div>
+          </div>
+        </div>
+        <div class="dyno__chart" data-reveal-clip data-cursor="hover">
+          <svg viewBox="0 0 600 380" id="dynoSvg">
+            <defs>
+              <linearGradient id="dArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ff2d3d" stop-opacity=".35"/>
+                <stop offset="1" stop-color="#ff2d3d" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g id="dGrid" class="dyno__grid"></g>
+            <path id="dAreaPath" fill="url(#dArea)"/>
+            <path id="dStockPath" class="dyno__stock"/>
+            <path id="dTunedPath" class="dyno__tuned" filter="url(#glow)"/>
+            <line id="dCross" class="dyno__cross" y1="20" y2="340"/>
+            <circle id="dDotS" r="5" class="dyno__dot dyno__dot--s"/>
+            <circle id="dDotT" r="6" class="dyno__dot dyno__dot--t"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CALCULATOR ============ -->
+    <section class="calc section" id="hesaplama">
+      <div class="container">
+        <div class="calc__head">
+          <div class="eyebrow" data-reveal><span class="line"></span>Chip Tuning Hesaplama</div>
+          <h2 class="title" data-lines>Aracınız ne kadar<br><em>güçlenebilir?</em></h2>
+        </div>
+        <div class="calc__box" data-reveal>
+          <div class="calc__form">
+            <label class="field">
+              <span>Marka</span>
+              <select id="cBrand"><option value="">Marka seçin</option></select>
+            </label>
+            <label class="field">
+              <span>Model</span>
+              <select id="cModel" disabled><option value="">Önce marka seçin</option></select>
+            </label>
+            <label class="field">
+              <span>Motor</span>
+              <select id="cEngine" disabled><option value="">Önce model seçin</option></select>
+            </label>
+            <p class="calc__note">* Değerler tahminidir; kesin sonuç dyno ölçümü ile belirlenir.</p>
+          </div>
+          <div class="calc__result" id="cResult">
+            <div class="calc__empty"><svg viewBox="0 0 64 64"><circle cx="32" cy="36" r="20"/><path d="M32 36l10-12"/></svg><span>Sonuçları görmek için aracınızı seçin</span></div>
+            <div class="calc__rows">
+              <div class="crow">
+                <div class="crow__label">Güç (HP)</div>
+                <div class="crow__bars">
+                  <div class="bar bar--s"><i id="bHpS"></i><span id="vHpS">0</span></div>
+                  <div class="bar bar--t"><i id="bHpT"></i><span id="vHpT">0</span></div>
+                </div>
+                <div class="crow__gain" id="gHp">+0</div>
+              </div>
+              <div class="crow">
+                <div class="crow__label">Tork (Nm)</div>
+                <div class="crow__bars">
+                  <div class="bar bar--s"><i id="bNmS"></i><span id="vNmS">0</span></div>
+                  <div class="bar bar--t"><i id="bNmT"></i><span id="vNmT">0</span></div>
+                </div>
+                <div class="crow__gain" id="gNm">+0</div>
+              </div>
+              <div class="calc__legend"><span class="l l--stock"><i></i>Orijinal</span><span class="l l--tuned"><i></i>SM Stage 1</span></div>
+              <button class="btn btn--primary magnetic js-open-modal" data-cursor="hover"><span>Bu araç için randevu al</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="process section" id="surec">
+      <div class="section__num" aria-hidden="true">03</div>
+      <div class="container">
+        <div class="eyebrow" data-reveal><span class="line"></span>Nasıl Çalışıyoruz?</div>
+        <h2 class="title" data-lines>4 adımda<br><em>güvenli servis.</em></h2>
+        <div class="process__list" id="processList">
+          <div class="process__line"><i id="processFill"></i></div>
+          <div class="step">
+            <div class="step__dot"><span>01</span></div>
+            <div class="step__body"><h4>Arıza Tespit & Ön Kontrol</h4><p>Bilgisayarlı tarama ve mekanik kontrol yapılır; yazılım işlerinde araç dyno'da ölçülür.</p></div>
+          </div>
+          <div class="step">
+            <div class="step__dot"><span>02</span></div>
+            <div class="step__body"><h4>Şeffaf Teklif & Onay</h4><p>Yapılacak işlem, parça ve maliyet işe başlamadan önce sizinle paylaşılır.</p></div>
+          </div>
+          <div class="step">
+            <div class="step__dot"><span>03</span></div>
+            <div class="step__body"><h4>Onarım & Yazılım</h4><p>Mekanik onarım ustalarımızca yapılır; yazılımda orijinal dosya yedeklenip kalibrasyon yapılır.</p></div>
+          </div>
+          <div class="step">
+            <div class="step__dot"><span>04</span></div>
+            <div class="step__body"><h4>Test & Teslim</h4><p>Yol testi ve son kontroller yapılır; aracınız yapılan işlemlerin raporuyla teslim edilir.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery section" id="galeri">
+      <div class="container">
+        <div class="gallery__head">
+          <div>
+            <div class="eyebrow" data-reveal><span class="line"></span>Galeri</div>
+            <h2 class="title" data-lines>Atölyeden<br><em>kareler.</em></h2>
+          </div>
+          <p data-reveal>Dyno odası, yazılım istasyonu ve mekanik atölyemizden seçilmiş çalışmalar.</p>
+        </div>
+        <div class="gallery__grid">
+          <figure class="g g--tall" data-reveal-clip data-cursor="view"><div class="g__img" style="background-image:url('img/galeri-1.jpg')"></div><div class="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div><figcaption><span>Dyno Testi</span><b lang="en">VW Golf 7 GTI</b></figcaption></figure>
+          <figure class="g" data-reveal-clip data-cursor="view"><div class="g__img" style="background-image:url('img/galeri-2.jpg')"></div><div class="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div><figcaption><span>ECU Bench</span><b lang="en">BMW F30 320d</b></figcaption></figure>
+          <figure class="g" data-reveal-clip data-cursor="view"><div class="g__img" style="background-image:url('img/galeri-3.jpg')"></div><div class="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div><figcaption><span>Motor Revizyon</span><b lang="en">Ford Transit</b></figcaption></figure>
+          <figure class="g" data-reveal-clip data-cursor="view"><div class="g__img" style="background-image:url('img/galeri-4.jpg')"></div><div class="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div><figcaption><span>Şanzıman Onarımı</span><b lang="en">Audi A3 DSG</b></figcaption></figure>
+          <figure class="g" data-reveal-clip data-cursor="view"><div class="g__img" style="background-image:url('img/galeri-5.jpg')"></div><div class="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M40 8a14 14 0 0 0-13 19L9 45a5 5 0 0 0 7 7l18-18A14 14 0 0 0 52 21l-8 8-8-2-2-8 8-8a14 14 0 0 0-2-3z"/></svg></div><figcaption><span>Mekanik</span><b>Turbo Revizyon</b></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="testi section" id="yorumlar">
+      <div class="container">
+        <div class="eyebrow" data-reveal><span class="line"></span>Müşteri Yorumları</div>
+        <div class="testi__wrap" data-reveal>
+          <div class="testi__quote">“</div>
+          <div class="testi__slides" id="testiSlides">
+            <blockquote class="tslide is-active">
+              <p>Stage 1 sonrası araç bambaşka oldu. Dyno raporunu görünce içim rahatladı, yakıt tüketimi de düştü.</p>
+              <footer><b>Murat K.</b><span>VW Passat 2.0 TDI</span></footer>
+            </blockquote>
+            <blockquote class="tslide">
+              <p>DPF arızası için birçok yere gittim, burada tek seferde çözüldü. İşini bilen, dürüst bir ekip.</p>
+              <footer><b>Selin A.</b><span>Ford Focus 1.5 TDCi</span></footer>
+            </blockquote>
+            <blockquote class="tslide">
+              <p>Motor revizyonunu söz verdikleri günde teslim ettiler. Her aşamada bilgi verdiler, araç ilk günkü gibi çalışıyor.</p>
+              <footer><b>Emre T.</b><span>Renault Megane 1.5 dCi</span></footer>
+            </blockquote>
+          </div>
+          <div class="testi__nav">
+            <button class="testi__btn" id="tPrev" aria-label="Önceki" data-cursor="hover"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+            <div class="testi__dots" id="tDots"></div>
+            <button class="testi__btn" id="tNext" aria-label="Sonraki" data-cursor="hover"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq section" id="sss">
+      <div class="container faq__inner">
+        <div>
+          <div class="eyebrow" data-reveal><span class="line"></span>Sıkça Sorulanlar</div>
+          <h2 class="title" data-lines>Aklınızdaki<br><em>sorular.</em></h2>
+        </div>
+        <div class="faq__list">
+          <div class="qa" data-reveal><button class="qa__q" data-cursor="hover">Chip tuning motora zarar verir mi?<i></i></button><div class="qa__a"><p>Doğru yapılan, motorun mekanik sınırları içinde kalan bir kalibrasyon zarar vermez. Tüm yazılımlarımız fabrika güvenlik marjları korunarak hazırlanır.</p></div></div>
+          <div class="qa" data-reveal><button class="qa__q" data-cursor="hover">Orijinal yazılıma geri dönebilir miyim?<i></i></button><div class="qa__a"><p>Evet. İşlem öncesi orijinal yazılım birebir yedeklenir; dilediğiniz zaman fabrika ayarlarına dönebilirsiniz.</p></div></div>
+          <div class="qa" data-reveal><button class="qa__q" data-cursor="hover">İşlem ne kadar sürer?<i></i></button><div class="qa__a"><p>Standart bir Stage 1 işlemi ölçümler dahil ortalama 2–3 saat sürer. Mekanik işlemlerde süre arızaya göre değişir.</p></div></div>
+          <div class="qa" data-reveal><button class="qa__q" data-cursor="hover">Sadece mekanik onarım da yapıyor musunuz?<i></i></button><div class="qa__a"><p>Evet. Periyodik bakımdan motor revizyonuna, şanzıman ve turbo onarımından fren ve süspansiyona kadar tüm mekanik işlemleri yapıyoruz.</p></div></div>
+          <div class="qa" data-reveal><button class="qa__q" data-cursor="hover">Chip tuning sonrası yakıt tüketimi artar mı?<i></i></button><div class="qa__a"><p>Normal sürüşte, özellikle dizel araçlarda, verimlilik artışı sayesinde tüketim genellikle düşer.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="cta" id="cta">
+      <div class="cta__lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="container cta__inner">
+        <h2 class="cta__title" data-lines>Gaza basmaya<br><em>hazır mısın?</em></h2>
+        <button class="cta__btn magnetic js-open-modal" data-cursor="hover">
+          <span class="cta__btn-txt">Randevu<br>Al</span>
+          <svg viewBox="0 0 200 200" class="cta__btn-ring"><defs><path id="circ" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0"/></defs><text><textPath href="#circ">SM GARAGE • ECU YAZILIM • MEKANİK ONARIM • </textPath></text></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact section" id="iletisim">
+      <div class="container contact__inner">
+        <div class="contact__info">
+          <div class="eyebrow" data-reveal><span class="line"></span>İletişim</div>
+          <h2 class="title" data-lines>Bize<br><em>ulaşın.</em></h2>
+          <div class="cinfo" data-reveal>
+            <div class="cinfo__ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>
+            <div><span>Adres</span><b><a href="https://www.google.com/maps/search/?api=1&amp;query=Maslak+Atat%C3%BCrk+Oto+Sanayi+Sitesi+2.K%C4%B1s%C4%B1m+10.Sokak+Par%C3%A7ac%C4%B1lar+%C4%B0%C5%9F+Merkezi+No%3A8+Sar%C4%B1yer+%C4%B0stanbul" target="_blank" rel="noopener">Maslak Atatürk Oto Sanayi Sitesi 2. Kısım<br>10. Sokak, Parçacılar İş Merkezi No: 8<br>Sarıyer / İstanbul</a></b></div>
+          </div>
+          <div class="cinfo" data-reveal>
+            <div class="cinfo__ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg></div>
+            <div><span>Telefon · Serger Sönmez</span><b><a href="tel:+905425731480">0542 573 14 80</a></b></div>
+          </div>
+          <div class="cinfo" data-reveal>
+            <div class="cinfo__ic"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM21.9 7.1c-.1-1.6-.4-3-1.6-4.2S17.6 1.3 16 1.2C14.3 1.1 9.7 1.1 8 1.2 6.4 1.3 5 1.6 3.8 2.8S2.2 5.5 2.1 7.1C2 8.8 2 13.2 2.1 14.9c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.7.1 6.3.1 8 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.7.1-6.1.2-7.8zm-2.2 9.9a3.3 3.3 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.7.4s-4.4.1-5.7-.4A3.3 3.3 0 0 1 4.7 17c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7A3.3 3.3 0 0 1 6.5 3.8c1.3-.5 4.3-.4 5.7-.4s4.4-.1 5.7.4a3.3 3.3 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7z"/></svg></div>
+            <div><span>Instagram</span><b><a href="https://www.instagram.com/smgaragemaslak/" target="_blank" rel="noopener">@smgaragemaslak</a></b></div>
+          </div>
+          <div class="cinfo" data-reveal>
+            <div class="cinfo__ic"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg></div>
+            <div><span>E-posta</span><b><a href="mailto:info@smgarage.com.tr">info@smgarage.com.tr</a></b></div>
+          </div>
+          <div class="cinfo" data-reveal>
+            <div class="cinfo__ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.4 3.5 2.1-.8 1.3L11.5 13.2V7H13z"/></svg></div>
+            <div><span>Çalışma Saatleri</span><b>Pzt – Cmt · 08:00 – 19:00</b></div>
+          </div>
+        </div>
+        <form class="contact__form" data-reveal id="contactForm" novalidate>
+          <div class="row2">
+            <label class="field field--float"><input type="text" name="ad" placeholder=" " required><span>Ad Soyad</span></label>
+            <label class="field field--float"><input type="tel" name="tel" placeholder=" " required><span>Telefon</span></label>
+          </div>
+          <label class="field field--float"><input type="text" name="arac" placeholder=" "><span>Araç Marka / Model / Yıl</span></label>
+          <label class="field field--float"><textarea name="mesaj" rows="4" placeholder=" "></textarea><span>Mesajınız</span></label>
+          <label class="check"><input type="checkbox" required><i></i>KVKK aydınlatma metnini okudum, kabul ediyorum.</label>
+          <button class="btn btn--primary btn--lg magnetic" type="submit" data-cursor="hover"><span>Mesaj Gönder</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <div class="form-ok"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-16"/></svg><b>Mesajınız alındı!</b><span>En kısa sürede size dönüş yapacağız.</span></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <a href="#top" class="logo" aria-label="SM Garage anasayfa"><img src="img/logo.png" alt="SM Garage — Araç Bakım Onarım Servisi" width="378" height="163"></a>
+        <ul class="footer__links">
+          <li><a href="#top">Anasayfa</a></li><li><a href="#hakkimizda">Kurumsal</a></li><li><a href="#hizmetler">Hizmetlerimiz</a></li>
+          <li><a href="#hesaplama">Tuning Hesaplama</a></li><li><a href="#galeri">Galeri</a></li><li><a href="#iletisim">İletişim</a></li>
+        </ul>
+      </div>
+      <div class="footer__giant" aria-hidden="true"><span id="giant">SM GARAGE</span></div>
+      <div class="footer__bottom">
+        <span>© <span id="yr">2026</span> SM Garage. Tüm hakları saklıdır.</span>
+        <span>ECU Yazılım · Mekanik Onarım · <a href="https://www.instagram.com/smgaragemaslak/" target="_blank" rel="noopener">@smgaragemaslak</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#top" class="totop" id="totop" aria-label="Yukarı çık"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="totop__bg"/><circle cx="24" cy="24" r="21" class="totop__p" id="totopP"/><path d="M24 31V17M18 23l6-6 6 6" class="totop__arr"/></svg></a>
+  <a href="https://wa.me/905425731480" target="_blank" rel="noopener" class="wa" aria-label="WhatsApp ile yaz" data-cursor="hover"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.2c-.2.2-.3.2-.6.1a8.2 8.2 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.4 13.4 0 0 0 5.2 4.6c1.9.8 2.7.9 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5 0-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zM12 0a12 12 0 0 0-10.3 18L0 24l6.2-1.6A12 12 0 1 0 12 0z"/></svg></a>
+
+  <!-- ============ APPOINTMENT MODAL ============ -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Randevu formu">
+    <div class="modal__bg" id="modalBg"></div>
+    <div class="modal__box">
+      <button class="modal__close" id="modalClose" aria-label="Kapat" data-cursor="hover"><span></span><span></span></button>
+      <div class="modal__head">
+        <img class="modal__logo" src="img/logo.png" alt="SM Garage" width="378" height="163">
+        <div class="eyebrow"><span class="line"></span>Online Randevu</div>
+        <h3>Randevunuzu <em>oluşturun</em></h3>
+      </div>
+      <form class="modal__form" id="apptForm" novalidate>
+        <div class="row2">
+          <label class="field field--float"><input type="text" placeholder=" " required><span>Ad Soyad</span></label>
+          <label class="field field--float"><input type="tel" placeholder=" " required><span>Telefon</span></label>
+        </div>
+        <div class="row2">
+          <label class="field field--float"><input type="text" placeholder=" "><span>Araç Marka / Model</span></label>
+          <label class="field field--float"><input type="text" placeholder=" "><span>Model Yılı</span></label>
+        </div>
+        <div class="row2">
+          <label class="field"><span>Hizmet</span>
+            <select><optgroup label="ECU Yazılım"><option>Chip Tuning</option><option>ECU Remap / Custom Map</option><option>Şanzıman Yazılımı</option><option>DPF / EGR / AdBlue</option></optgroup><optgroup label="Mekanik Onarım"><option>Bilgisayarlı Arıza Tespit</option><option>Motor Revizyon / Onarım</option><option>Turbo & Enjektör</option><option>Şanzıman & Debriyaj</option><option>Periyodik Bakım</option><option>Fren & Süspansiyon</option></optgroup></select>
+          </label>
+          <label class="field"><span>Tercih Edilen Tarih</span><input type="date" id="apptDate"></label>
+        </div>
+        <label class="field field--float"><textarea rows="3" placeholder=" "></textarea><span>Mesajınız</span></label>
+        <label class="check"><input type="checkbox" required><i></i>KVKK aydınlatma metnini okudum, kabul ediyorum.</label>
+        <button class="btn btn--primary btn--lg" type="submit"><span>Randevu Talebi Gönder</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="form-ok"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M14 27l8 8 16-16"/></svg><b>Talebiniz alındı!</b><span>Randevu onayı için sizi arayacağız.</span></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
