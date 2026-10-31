@@ -4,10 +4,9 @@ import { Check, Eyebrow, FloatField, Lines } from './ui';
 import { ClockIcon, InstagramIcon, MailIcon, PhoneIcon, PinIcon, WhatsappIcon } from './Icons';
 import { useWhatsAppForm, validateContact, WhatsAppSent } from './forms';
 
-const EMPTY = { name: '', phone: '', vehicle: '', message: '', kvkk: false };
+const EMPTY = { name: '', vehicle: '', message: '', kvkk: false };
 const toMessage = v => buildMessage('bilgi almak istiyorum.', [
   ['Ad Soyad', v.name],
-  ['Telefon', v.phone],
   ['Araç', v.vehicle],
   ['Mesaj', v.message],
 ]);
@@ -36,13 +35,11 @@ export default function Contact() {
           <Info icon={<ClockIcon />} label="Çalışma Saatleri">{CONTACT.hours}</Info>
         </div>
         <form className={`contact__form${sentUrl ? ' is-sent' : ''}`} data-reveal="" noValidate onSubmit={submit}>
-          <div className="row2">
-            <FloatField label="Ad Soyad" autoComplete="name" error={errors.name} {...bind('name')} />
-            <FloatField label="Telefon" type="tel" autoComplete="tel" error={errors.phone} {...bind('phone')} />
-          </div>
+          <FloatField label="Ad Soyad (isteğe bağlı)" autoComplete="name" {...bind('name')} />
           <FloatField label="Araç Marka / Model / Yıl" {...bind('vehicle')} />
           <FloatField label="Mesajınız" textarea rows={4} {...bind('message')} />
-          <Check checked={values.kvkk} onChange={bind('kvkk').onChange} error={errors.kvkk}>KVKK aydınlatma metnini okudum, kabul ediyorum.</Check>
+          <p className="form-notice">Bilgileriniz WhatsApp'ta bir mesaj olarak hazırlanır; göndermeyi orada siz seçersiniz. WhatsApp kendi koşullarına göre veri işleyebilir. <a href="#/gizlilik" target="_blank" rel="noopener">Gizlilik ve KVKK aydınlatma metni</a></p>
+          <Check checked={values.kvkk} onChange={bind('kvkk').onChange} error={errors.kvkk}>Yazdığım bilgilerin WhatsApp'a aktarılacağını anladım ve devam etmek istiyorum.</Check>
           <button className="btn btn--primary btn--lg btn--wa magnetic" type="submit" data-cursor="hover"><span>WhatsApp ile Gönder</span><WhatsappIcon /></button>
           <WhatsAppSent url={sentUrl} />
         </form>

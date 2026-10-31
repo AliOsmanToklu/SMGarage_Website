@@ -1,0 +1,29 @@
+/* Transitions do not hold up content and are disabled when motion is reduced. */
+.header.is-hidden:focus-within { transform: none; }
+.legal-page, .recovery-page { animation: page-enter 180ms ease-out both; }
+@keyframes page-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.page-skeleton p { color: var(--muted); font-size: .95rem; }
+.skeleton { height: 14px; margin: 18px 0; border-radius: 3px; background: linear-gradient(90deg, #30383a 15%, #465053 45%, #30383a 75%); background-size: 220% 100%; animation: skeleton-shimmer 1.4s linear infinite; }
+.skeleton--heading { height: 42px; width: 68%; margin: 32px 0 44px; }
+.skeleton--short { width: 55%; }
+@keyframes skeleton-shimmer { to { background-position: -220% 0; } }
+.toast-region { position: fixed; z-index: 900; right: 24px; bottom: 24px; max-width: min(360px, calc(100vw - 48px)); pointer-events: none; }
+.toast { background: #f0ede7; color: #171b1d; border-left: 4px solid #a52f26; padding: 16px 20px; box-shadow: 0 8px 28px #0008; font-size: .95rem; font-weight: 600; animation: page-enter 180ms ease-out both; }
+.recovery-page { min-height: 70vh; padding: 170px 0 110px; display: flex; align-items: center; }
+.recovery-page__inner { max-width: 960px; }
+.recovery-page__brand { color: #ffb477; letter-spacing: .16em; font-size: .8rem; font-weight: 700; }
+.recovery-page__number { color: #ffb477; font: 600 clamp(70px, 12vw, 150px)/1 var(--display); margin: 28px 0 12px; }
+.recovery-page h1 { font: 600 clamp(36px, 5vw, 64px)/1.1 var(--display); text-transform: uppercase; }
+.recovery-page h1 + p { max-width: 560px; margin-top: 20px; color: var(--muted); }
+.recovery-page__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.field-error { display: block; margin-top: 6px; color: #ffb5a5; font-size: .9rem; }
+.field-help { font-size: .9rem; color: var(--muted); }
+.field-help summary { display: inline-block; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
+.field-help p { margin-top: 8px; max-width: 48ch; }
+@media (max-width: 640px) {
+  .recovery-page { padding-top: 120px; }
+  .toast-region { right: 16px; bottom: 16px; max-width: calc(100vw - 32px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header, .legal-page, .recovery-page, .toast, .skeleton { animation: none; transition: none; }
+}

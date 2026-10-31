@@ -1,0 +1,41 @@
+/* Service tiles share a quiet, responsive grid, with extra space for the
+   two broad ECU offerings and a full-width path to contact. */
+.services .services__head { align-items: end; }
+.services .services__intro { max-width: 330px; color: #c1c7c8; }
+.services .services__track {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+}
+.services .svc { grid-column: span 4; padding: clamp(24px, 2.6vw, 36px); }
+.services .svc:nth-child(1) { grid-column: span 7; background: #252d2e; }
+.services .svc:nth-child(2) { grid-column: span 5; }
+.services .svc:nth-child(n+3) .svc__icon { display: none; }
+.services .svc__num { font: 600 14px var(--body); letter-spacing: .08em; top: 28px; right: 30px; color: #c1c7c8; }
+.services .svc h3 { max-width: 21ch; line-height: 1.15; }
+.services .svc p { max-width: 48ch; }
+.services .svc li { border-radius: 3px; }
+.services .svc--cta { grid-column: 1 / -1; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding-block: 36px; }
+.services .svc--cta .svc__tag { display: block; color: #fff; }
+.services .svc--cta h3 { max-width: 25ch; margin: 0; }
+.services .svc--cta .btn { flex: none; }
+
+/* Grid tracks interpolate without measuring content in JavaScript. */
+.faq .qa__a { display: grid; grid-template-rows: 0fr; height: auto; transition: grid-template-rows 220ms ease; }
+.faq .qa.is-open .qa__a { grid-template-rows: 1fr; }
+.faq .qa__a-inner { min-height: 0; overflow: hidden; }
+.faq .qa__q i, .faq .qa__q i::after { transition-duration: 180ms; }
+
+@media (max-width: 900px) {
+  .services .services__head { align-items: start; }
+  .services .services__intro { max-width: 50ch; }
+  .services .svc, .services .svc:nth-child(1), .services .svc:nth-child(2) { grid-column: span 6; }
+  .services .svc--cta { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .services .services__track { grid-template-columns: 1fr; gap: 8px; }
+  .services .svc, .services .svc:nth-child(1), .services .svc:nth-child(2), .services .svc--cta { grid-column: 1; }
+  .services .svc--cta { align-items: flex-start; flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq .qa__a, .faq .qa__q i, .faq .qa__q i::after { transition: none; }
+}

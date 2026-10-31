@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useId } from 'react';
 import { asset } from '../lib/utils';
 
 // Randevu penceresini her yerden açmak için: openAppointment({ service, vehicle })
@@ -28,17 +28,25 @@ export const Split = ({ text, className }) => (
 
 export const FloatField = ({ label, error, textarea, ...props }) => {
   const Tag = textarea ? 'textarea' : 'input';
+  const errorId = useId();
   return (
-    <label className={`field field--float${error ? ' is-error' : ''}`}>
-      <Tag placeholder=" " {...props} />
-      <span>{label}</span>
-    </label>
+    <div>
+      <label className={`field field--float${error ? ' is-error' : ''}`}>
+        <Tag placeholder=" " aria-invalid={!!error} aria-describedby={error ? errorId : undefined} {...props} />
+        <span>{label}</span>
+      </label>
+      {error && <span id={errorId} className="field-error" role="alert">{error}</span>}
+    </div>
   );
 };
 
-export const Check = ({ checked, onChange, error, children }) => (
-  <label className={`check${error ? ' is-error' : ''}`}>
-    <input type="checkbox" checked={checked} onChange={onChange} />
-    <i />{children}
-  </label>
-);
+export const Check = ({ checked, onChange, error, children }) => {
+  const errorId = useId();
+  return <div>
+    <label className={`check${error ? ' is-error' : ''}`}>
+      <input type="checkbox" checked={checked} onChange={onChange} required aria-invalid={!!error} aria-describedby={error ? errorId : undefined} />
+      <i aria-hidden="true" /><span>{children}</span>
+    </label>
+    {error && <span className="check-error" id={errorId} role="alert">Devam etmek için bu kutuyu işaretleyin.</span>}
+  </div>;
+};

@@ -572,6 +572,16 @@ img, svg { display: block; }
 .modal__form .btn { align-self: flex-start; }
 .modal__form .form-ok { inset: -10px -10px -40px; }
 
+/* Overlays open immediately and keep focus within their visible controls. */
+.mmenu.is-open, .modal.is-open { visibility: visible; }
+.mmenu.is-open .mmenu__bg { clip-path: none; }
+.mmenu.is-open .mmenu__foot { opacity: 1; }
+.mmenu__close { position: absolute; z-index: 1; top: 24px; right: var(--pad); padding: 12px; text-decoration: underline; }
+.modal.is-open .modal__bg { opacity: 1; }
+.modal.is-open .modal__box { clip-path: none; }
+.skip-link { position: fixed; z-index: 1000; top: 8px; left: 8px; padding: 12px 16px; background: #fff; color: #111; transform: translateY(-150%); }
+.skip-link:focus { transform: none; }
+
 /* ---------- No-JS / fallback ---------- */
 .no-anim .preloader { display: none; }
 
@@ -658,3 +668,112 @@ img, svg { display: block; }
 .form-ok__link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 10px 18px; border-radius: 100px; background: #25d366; color: #fff; font-size: 13px; font-weight: 700; transition: transform .4s var(--ease-out); }
 .form-ok__link:hover { transform: translateY(-2px); }
 .form-ok .form-ok__link svg, .is-sent .form-ok .form-ok__link svg path { width: 18px; height: 18px; fill: #fff; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+
+/* Workshop identity: quiet surfaces, strong type and predictable interaction. */
+:root {
+  --bg: #101315;
+  --bg-2: #171b1d;
+  --bg-3: #202527;
+  --line: rgba(255,255,255,.14);
+  --line-2: rgba(255,255,255,.28);
+  --muted: #c1c7c8;
+  --red: #a52f26;
+  --orange: #ffb477;
+  --grad: #a52f26;
+  --display: Impact, "Arial Narrow", sans-serif;
+  --body: "Segoe UI", Arial, sans-serif;
+  --pad: clamp(20px, 4vw, 48px);
+}
+html { scroll-padding-top: 90px; }
+:focus-visible { outline: 3px solid #ffbf88; outline-offset: 4px; }
+.check input:focus-visible + i { outline: 3px solid #ffbf88; outline-offset: 4px; }
+.preloader, .cursor, .noise, .scroll-progress { display: none !important; }
+.nav, .header.is-scrolled .nav { background: #101315; backdrop-filter: none; border-color: var(--line); }
+.header.is-scrolled .topbar { margin-top: 0; opacity: 1; }
+.header.is-scrolled .nav__inner { height: 84px; }
+.title em, .cta__title em, .modal__head h3 em { background: none; color: #ffb477; }
+.btn { border-radius: 4px; transition: background-color .15s, border-color .15s, color .15s; }
+.btn::before { display: none; }
+.btn--primary { background: #a52f26; color: #fff; box-shadow: none; }
+.btn--primary:hover { background: #83231d; color: #fff; box-shadow: none; }
+.btn--ghost:hover { background: #303637; border-color: #a5aeaf; }
+.btn:hover svg { transform: none; }
+.logo img, .logo:hover img { transform: none; filter: none; }
+.hero { min-height: min(820px, 100svh); padding: 180px 0 100px; background: #101315; }
+.hero__inner { grid-template-columns: 1.2fr .8fr; gap: clamp(40px, 6vw, 96px); }
+.hero__title { font-size: clamp(58px, 8vw, 112px); line-height: 1.04; letter-spacing: 0; }
+.hero__title span { color: #ffb477; }
+.hero__lead { max-width: 560px; color: #d3d8d9; }
+.hero__mini { gap: 36px; }
+.hero__mini b { color: #ffb477; font-size: 22px; }
+.hero__mini span { color: #c1c7c8; }
+.hero__diagram { max-width: 480px; border: 1px solid #465053; background: #171c1e; display: grid; place-items: center; }
+.hero__diagram svg { width: 92%; stroke: #667375; stroke-width: 1.2; }
+.hero__diagram svg rect { fill: #222b2d; stroke: #ffb477; stroke-width: 2; }
+.hero__diagram svg text { fill: #f2f3f5; stroke: none; font: 600 32px "Segoe UI", sans-serif; letter-spacing: .12em; }
+.hero__diagram-label { position: absolute; bottom: 20px; left: 24px; color: #c1c7c8; font-size: 11px; letter-spacing: .18em; }
+.marquee { transform: none; margin: 0; padding: 18px 0; box-shadow: none; background: #a52f26; }
+.marquee__track { width: auto; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 24px; padding: 0 var(--pad); }
+.marquee span, .marquee span:nth-of-type(even) { color: #fff; -webkit-text-stroke: 0; font: 700 13px "Segoe UI", sans-serif; letter-spacing: .08em; }
+.marquee i { color: #fff; font-size: 13px; }
+.about__card { border-radius: 4px; background: #1c2224; }
+.about__card::after { display: none; }
+.about__scrub .w { opacity: 1; }
+.services__pin { min-height: 0; display: block; padding: clamp(90px, 10vw, 140px) 0; }
+.services__progress { display: none; }
+.services__track { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 var(--pad); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; overflow: visible; background: transparent; }
+.svc { width: auto; min-height: 0; padding: 32px; border-radius: 0; background: #202628; transform: none; }
+.svc:hover { border-color: var(--line); }
+.svc__glow { display: none; }
+.svc__num { font-size: 44px; color: #a8b1b2; -webkit-text-stroke: 0; }
+.svc:hover .svc__num { transform: none; }
+.svc__icon, .svc:hover .svc__icon { width: 48px; height: 48px; margin-bottom: 28px; border: 0; border-radius: 0; background: transparent; transform: none; }
+.svc__icon svg, .svc:hover .svc__icon svg { width: 36px; stroke: #ffb477; }
+.svc h3, .svc p { transform: none; }
+.svc__tag { border: 0; border-radius: 0; background: transparent; padding: 0; }
+.svc__more { margin-top: auto; padding: 12px 0; transition: none; }
+.svc__more:hover { letter-spacing: .14em; text-decoration: underline; }
+.svc--cta { background: #a52f26; }
+.process__line i { transform: scaleX(1); box-shadow: none; }
+.step__dot, .step.is-on .step__dot { border-color: #ffb477; background: #202628; box-shadow: none; transform: none; }
+.qa__a { height: auto; }
+.qa__a[hidden] { display: none; }
+.cta { background: #202628; }
+.cta__lines { display: none; }
+.cta__btn { border-radius: 4px; width: auto; height: auto; padding: 20px 32px; background: #a52f26; box-shadow: none; }
+.cta__btn::before, .cta__btn-ring { display: none; }
+.cta__btn-txt { font: 700 16px "Segoe UI", sans-serif; line-height: 1.2; }
+.cinfo__ic, .cinfo:hover .cinfo__ic { border: 0; border-radius: 0; background: transparent; transform: none; }
+.cinfo__ic svg, .cinfo:hover .cinfo__ic svg { fill: #ffb477; }
+.contact__form, .modal__box { border-radius: 4px; background: #171b1d; }
+.modal__bg { backdrop-filter: none; }
+.footer__giant span { background: none; color: #30383a; -webkit-text-stroke: 0; }
+.wa, .form-ok__link { background: #075e35; box-shadow: none; }
+.wa::before { display: none; }
+.wa:hover, .form-ok__link:hover { transform: none; }
+@media (max-width: 1100px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__visual { justify-self: start; max-width: 350px; }
+}
+@media (max-width: 900px) {
+  .services__track { overflow: visible; padding-bottom: 0; }
+  .cta__btn { align-self: flex-start; }
+}
+@media (max-width: 640px) {
+  .header.is-scrolled .nav__inner { height: 70px; }
+  .hero { padding: 120px 0 72px; }
+  .hero__title { font-size: clamp(48px, 12vw, 70px); }
+  .hero__mini { gap: 20px; flex-wrap: wrap; }
+  .services__track { grid-template-columns: 1fr; }
+  .svc { padding: 28px 24px; }
+}
+/* Form controls retain a visible boundary and keyboard focus on dark surfaces. */
+.field select, .field input, .field textarea { border-color: #7e8b8c; border-radius: 4px; }
+.field select:focus-visible, .field input:focus-visible, .field textarea:focus-visible { outline: 3px solid #ffbf88; outline-offset: 3px; box-shadow: none; }
+.check i { border-color: #a7b1b2; border-radius: 3px; }
+.field.is-error input, .field.is-error textarea, .check.is-error i { border-color: #ffb477; animation: none; }
+.modal__close:hover { transform: none; background: #a52f26; }
+.form-ok, .modal__form .form-ok { position: static; opacity: 1; visibility: visible; align-items: flex-start; text-align: left; background: transparent; }
+.form-ok:empty { display: none; }
+.form-ok b { font: 700 1rem var(--body); text-transform: none; }
+.form-ok__link { border-radius: 4px; }
