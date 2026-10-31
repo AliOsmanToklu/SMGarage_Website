@@ -1,11 +1,10 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useRef } from 'react';
 import { CONTACT, whatsappUrl } from '../config';
 import { NAV } from '../data';
-import { scroll } from '../lib/scroll';
+import { useDialogFocus } from '../lib/dialog';
 import { asset } from '../lib/utils';
 import { Logo, useAppointment } from './ui';
-import { InstagramIcon, MailIcon, PhoneIcon, WhatsappIcon, YoutubeIcon } from './Icons';
+import { InstagramIcon, MailIcon, PhoneIcon, WhatsappIcon } from './Icons';
 
 export function Preloader() {
   return (
@@ -47,7 +46,6 @@ export function Header({ menuOpen, onToggleMenu }) {
           </div>
           <div className="topbar__social">
             <a href={CONTACT.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram @${CONTACT.instagram}`}><InstagramIcon /></a>
-            <a href={CONTACT.youtubeUrl} aria-label="YouTube"><YoutubeIcon /></a>
             <a href={whatsappUrl()} target="_blank" rel="noopener" aria-label="WhatsApp"><WhatsappIcon /></a>
           </div>
         </div>
@@ -59,7 +57,7 @@ export function Header({ menuOpen, onToggleMenu }) {
             {NAV.map(([href, text]) => <li key={href}><a href={href} data-text={text}>{text}</a></li>)}
           </ul>
           <button className="btn btn--primary btn--sm magnetic" data-cursor="hover" onClick={() => openAppointment()}><span>Randevu Al</span></button>
-          <button className={`burger${menuOpen ? ' is-open' : ''}`} aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'} aria-expanded={menuOpen} onClick={onToggleMenu}>
+          <button className={`burger${menuOpen ? ' is-open' : ''}`} aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'} aria-expanded={menuOpen} aria-controls="mmenu" onClick={onToggleMenu}>
             <span /><span /><span />
           </button>
         </div>
@@ -71,38 +69,14 @@ export function Header({ menuOpen, onToggleMenu }) {
 export function MobileMenu({ open, onClose }) {
   const openAppointment = useAppointment();
   const ref = useRef(null);
-  const tl = useRef(null);
+  useDialogFocus(open, ref, onClose);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      tl.current = gsap.timeline({ paused: true, defaults: { ease: 'expo.inOut' } })
-        .set(ref.current, { visibility: 'visible' })
-        .fromTo('.mmenu__bg', { clipPath: 'circle(0% at 90% 4%)' }, { clipPath: 'circle(150% at 90% 4%)', duration: 1.1 })
-        .fromTo('.mmenu__links a', { yPercent: 110 }, { yPercent: 0, duration: 1, stagger: .06, ease: 'expo.out', immediateRender: true }, .45)
-        .fromTo('.mmenu__foot', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .6 }, .8);
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle('menu-open', open);
-    if (open) {
-      document.getElementById('header').classList.remove('is-hidden');
-      tl.current.timeScale(1).play();
-      scroll.stop();
-      const onKey = e => e.key === 'Escape' && onClose();
-      window.addEventListener('keydown', onKey);
-      return () => window.removeEventListener('keydown', onKey);
-    }
-    if (tl.current.progress() > 0) {
-      tl.current.timeScale(1.6).reverse();
-      scroll.start();
-    }
-  }, [open, onClose]);
+  if (!open) return null;
 
   return (
-    <div className="mmenu" id="mmenu" ref={ref}>
+    <div className="mmenu is-open" id="mmenu" ref={ref} role="dialog" aria-modal="true" aria-label="Menü">
       <div className="mmenu__bg" />
+      <button className="mmenu__close" onClick={onClose}>Menüyü kapat</button>
       <ul className="mmenu__links">
         {NAV.map(([href, text], i) => (
           <li key={href}><a href={href} onClick={onClose}><em>{String(i + 1).padStart(2, '0')}</em>{text === 'Tuning Hesaplama' ? 'Hesaplama' : text}</a></li>
@@ -131,6 +105,9 @@ export function Footer() {
           <span>© {new Date().getFullYear()} SM Garage. Tüm hakları saklıdır.</span>
           <span>ECU Yazılım · Mekanik Onarım · <a href={CONTACT.instagramUrl} target="_blank" rel="noopener">@{CONTACT.instagram}</a></span>
         </div>
+        <nav className="legal-links" aria-label="Yasal bilgiler">
+          <a href="#/gizlilik">Gizlilik ve KVKK</a><a href="#/kosullar">Kullanım koşulları</a><a href="#/cerezler">Çerez politikası</a><a href="#/iade">İptal ve iade</a>
+        </nav>
       </div>
     </footer>
   );

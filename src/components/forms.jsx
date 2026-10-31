@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { openWhatsApp } from '../config';
 import { WhatsappIcon } from './Icons';
 
 export const validateContact = v => {
   const err = {};
-  if (!v.name.trim()) err.name = true;
-  if (v.phone.replace(/\D/g, '').length < 10) err.phone = true;
   if (!v.kvkk) err.kvkk = true;
   return err;
 };
@@ -15,8 +13,6 @@ export function useWhatsAppForm(initial, validate, toMessage) {
   const [values, setValues] = useState(initial);
   const [errors, setErrors] = useState({});
   const [sentUrl, setSentUrl] = useState(null);
-  const timer = useRef(null);
-  useEffect(() => () => clearTimeout(timer.current), []);
 
   const bind = key => ({
     value: values[key],
@@ -27,23 +23,21 @@ export function useWhatsAppForm(initial, validate, toMessage) {
     },
   });
 
-  const submit = (e, after) => {
+  const submit = e => {
     e.preventDefault();
     const err = validate(values);
     setErrors({});
-    if (Object.keys(err).length) { requestAnimationFrame(() => setErrors(err)); return; } // sallanma animasyonu her seferinde
+    if (Object.keys(err).length) { setErrors(err); return; }
     setSentUrl(openWhatsApp(toMessage(values)));
-    timer.current = setTimeout(() => { setValues(initial); setSentUrl(null); after?.(); }, 6000);
   };
 
   return { values, setValues, errors, sentUrl, bind, submit };
 }
 
 export const WhatsAppSent = ({ url }) => (
-  <div className="form-ok" aria-live="polite">
-    <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" /><path d="M14 27l8 8 16-16" /></svg>
-    <b>WhatsApp açılıyor!</b>
-    <span>Mesajınız hazır — WhatsApp'ta <strong>Gönder</strong>'e basmanız yeterli.</span>
-    {url && <a className="form-ok__link" href={url} target="_blank" rel="noopener"><WhatsappIcon />Açılmadıysa buraya tıklayın</a>}
+  <div className="form-ok" role="status">
+    {url && <><b>WhatsApp bağlantısı hazır.</b>
+    <span>Mesajı göndermek için WhatsApp'ta <strong>Gönder</strong>'e basın.</span>
+    <a className="form-ok__link" href={url} target="_blank" rel="noopener"><WhatsappIcon />WhatsApp açılmadıysa tekrar deneyin</a></>}
   </div>
 );

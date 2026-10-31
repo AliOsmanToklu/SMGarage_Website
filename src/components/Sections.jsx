@@ -4,16 +4,15 @@ import { Eyebrow, Lines, useAppointment } from './ui';
 import { ArrowIcon, CheckIcon, WrenchPath } from './Icons';
 
 export function Marquee() {
-  // iki kopya: xPercent -50 ile kesintisiz döngü
-  const row = copy => MARQUEE.flatMap(t => [<span key={`${copy}${t}`}>{t}</span>, <i key={`${copy}${t}-i`}>✦</i>]);
+  const row = MARQUEE.flatMap(t => [<span key={t}>{t}</span>, <i key={`${t}-i`}>/</i>]);
   return (
     <div className="marquee" aria-hidden="true">
-      <div className="marquee__track" id="marquee">{row('a')}{row('b')}</div>
+      <div className="marquee__track" id="marquee">{row}</div>
     </div>
   );
 }
 
-const ABOUT_TEXT = 'Modern bir araç hem yazılımıyla hem mekaniğiyle yaşar. ECU; enjektör, turbo ve EGR gibi bileşenleri yöneten aracın beynidir, ama sağlıklı çalışması için motorun, şanzımanın ve yürüyen aksamın da kusursuz olması gerekir. SM Garage olarak arızayı bilgisayarla tespit ediyor, mekanik onarımı uzman ustalarımızla yapıyor, gerektiğinde yazılımı motorunuza özel olarak yeniden kalibre ediyoruz.';
+const ABOUT_TEXT = 'Aracınızın bakım ve onarım ihtiyaçlarını değerlendiriyor, arıza tespiti, mekanik onarım ve ECU yazılımı alanlarında hizmet sunuyoruz. İşlem kapsamı aracın durumuna göre belirlenir.';
 
 // Tecrübe yılı: değer girilince (örn. 15) rozet otomatik görünür
 const EXPERIENCE_YEARS = null;
@@ -37,7 +36,7 @@ export function About() {
               <rect className="chip" x="140" y="170" width="120" height="140" rx="10" />
               <g className="chip-pins"><path d="M140 190h-14M140 210h-14M140 230h-14M140 250h-14M140 270h-14M140 290h-14M260 190h14M260 210h14M260 230h14M260 250h14M260 270h14M260 290h14" /></g>
               <text x="200" y="235" className="chip-label">ECU</text>
-              <text x="200" y="262" className="chip-sub">SM-TUNE v4</text>
+              <text x="200" y="262" className="chip-sub">SM GARAGE</text>
             </svg>
             {EXPERIENCE_YEARS && (
               <div className="about__year">
@@ -54,7 +53,7 @@ export function About() {
             {ABOUT_TEXT.split(' ').map((w, i) => <span className="w" key={i}>{w} </span>)}
           </p>
           <ul className="about__list">
-            {['ECU yazılım: orijinal dosya yedeği & tam geri dönüş', 'Mekanik onarım: motor, şanzıman, turbo, fren & süspansiyon', 'Bilgisayarlı arıza tespit: doğru teşhis, gereksiz masraf yok']
+            {['ECU yazılım ve araç değerlendirmesi', 'Motor, şanzıman, turbo, fren ve süspansiyon işlemleri', 'Bilgisayarlı arıza tespiti ve mekanik kontrol']
               .map(t => <li data-reveal="" key={t}><CheckIcon />{t}</li>)}
           </ul>
           <a href="#hizmetler" className="link-arrow" data-reveal="" data-cursor="hover">Hizmetlerimizi keşfet <ArrowIcon /></a>
@@ -86,12 +85,12 @@ export function Services() {
               <h3>{s.title}</h3>
               <p>{s.desc}</p>
               <ul>{s.chips.map(c => <li key={c}>{c}</li>)}</ul>
-              <button className="svc__more" data-cursor="hover" onClick={() => openAppointment({ service: s.option })}>Randevu Al →</button>
+              <button className="svc__more" data-cursor="hover" onClick={() => openAppointment({ service: s.option })} aria-label={`${s.title} için randevu alın`}>Randevu alın →</button>
             </article>
           ))}
           <article className="svc svc--cta">
             <h3>Aracınız için en doğru çözümü birlikte bulalım.</h3>
-            <button className="btn btn--primary btn--lg magnetic" data-cursor="hover" onClick={() => openAppointment()}><span>Ücretsiz Danışın</span></button>
+            <button className="btn btn--primary btn--lg magnetic" data-cursor="hover" onClick={() => openAppointment()}><span>Randevu alın</span></button>
           </article>
         </div>
       </div>
@@ -174,9 +173,9 @@ export function Cta() {
     <section className="cta" id="cta">
       <div className="cta__lines" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       <div className="container cta__inner">
-        <Lines className="cta__title" lines={['Gaza basmaya', <em key="e">hazır mısın?</em>]} />
+        <Lines className="cta__title" lines={['Aracınız için', <em key="e">randevu alın.</em>]} />
         <button className="cta__btn magnetic" data-cursor="hover" onClick={() => openAppointment()}>
-          <span className="cta__btn-txt">Randevu<br />Al</span>
+          <span className="cta__btn-txt">Randevu alın</span>
           <svg viewBox="0 0 200 200" className="cta__btn-ring">
             <defs><path id="circ" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0" /></defs>
             <text><textPath href="#circ">SM GARAGE • ECU YAZILIM • MEKANİK ONARIM • </textPath></text>
