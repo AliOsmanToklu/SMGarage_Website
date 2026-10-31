@@ -1,40 +1,40 @@
 # SM Garage Maslak
 
-SM Garage'ın ECU yazılımı ve mekanik servis hizmetlerini tanıtan Türkçe web sitesi. Ziyaretçiler hizmetleri inceleyebilir, sıkça sorulan sorulara göz atabilir ve WhatsApp üzerinden randevu veya bilgi talebi hazırlayabilir.
+A Turkish-language website presenting SM Garage's ECU software and mechanical repair services. Visitors can explore services, read frequently asked questions, and prepare appointment or information requests through WhatsApp.
 
-## Özellikler
+## Features
 
-- Mobil uyumlu hizmet sayfaları ve klavye ile kullanılabilen menü, formlar ve randevu penceresi.
-- İptal ve iade, çerez, gizlilik ve kullanım koşulları için taslak sayfalar.
-- WhatsApp'a yönlendirme öncesinde veri aktarımı hakkında bilgilendirme.
-- Docker ile statik yayın, sağlık kontrolü ve özel 404 sayfası.
-- GitHub Actions ile üretim derlemesi, bağımlılık denetimi ve konteyner kontrolleri.
+- Responsive service pages, keyboard-accessible navigation, forms, and an appointment dialog.
+- Draft privacy, terms, cookie, and cancellation and refund policy pages.
+- A disclosure about data transfer before opening WhatsApp.
+- Static hosting with Docker, a health endpoint, and a custom 404 page.
+- GitHub Actions checks for the production build, dependency audit, and container behavior.
 
-Formlar sunucuya gönderilmez: bilgiler tarayıcıda bir WhatsApp mesajına dönüştürülür ve kullanıcı mesajı WhatsApp'ta ayrıca gönderir. Projede uygulama sunucusu, veritabanı veya çevrimiçi ödeme altyapısı bulunmaz.
+Forms do not submit data to an application server. The browser prepares a WhatsApp message, which the visitor chooses whether to send in WhatsApp. The project has no application server, database, or online payment system.
 
-## Teknolojiler
+## Technology
 
-React, Vite ve CSS ile geliştirilmiştir. Üretim derlemesi, çok aşamalı Docker imajında ayrıcalıksız Nginx kullanılarak sunulur.
+Built with React, Vite, and CSS. A multi-stage Docker image serves the production build with unprivileged Nginx.
 
-## Yerel geliştirme
+## Local development
 
-Gereksinim: Node.js 24 ve npm.
+Requirements: Node.js 24 and npm.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Geliştirme sunucusunun adresi terminalde gösterilir. Üretim derlemesini oluşturmak ve önizlemek için:
+The development server URL appears in the terminal. To build and preview the production site:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Docker ile çalıştırma
+## Run with Docker
 
-Docker Engine ve Docker Compose eklentisi kurulu olmalıdır:
+Install Docker Engine and the Docker Compose plugin, then run:
 
 ```bash
 cp .env.example .env
@@ -43,24 +43,24 @@ docker compose ps
 curl http://localhost:8080/healthz
 ```
 
-Site varsayılan olarak `http://localhost:8080` adresinde sunulur; host portu `.env` içindeki `WEB_PORT` ile değiştirilebilir. Durdurmak için `docker compose down` kullanın. Uygulama durum tutmadığından veri hacmi gerektirmez.
+The site is available at `http://localhost:8080` by default. Change the host port with `WEB_PORT` in `.env`. Run `docker compose down` to stop the service. The application is stateless and does not require a data volume.
 
-AWS EC2, Application Load Balancer ve HTTPS yapılandırması için [dağıtım rehberine](DEPLOYMENT.md) bakın. Üretimde doğrudan açık HTTP portu yerine rehberdeki ağ ve TLS yapılandırmasını kullanın.
+See the [deployment guide](DEPLOYMENT.md) for AWS EC2, Application Load Balancer, and HTTPS setup. In production, follow the guide's network and TLS configuration instead of exposing the HTTP port directly.
 
-## Proje yapısı
+## Project structure
 
-| Yol | İçerik |
+| Path | Contents |
 | --- | --- |
-| `src/components/` | Sayfa bölümleri, formlar ve arayüz bileşenleri |
-| `src/data.jsx` | Hizmet ve SSS metinleri |
-| `src/config.js` | İletişim bilgileri ve WhatsApp bağlantıları |
-| `src/components/LegalPage.jsx` | Taslak yasal sayfalar |
-| `public/` | Logo ve statik 404 sayfası |
-| `nginx/` | Üretim sunucusu yapılandırması |
-| `.github/` | CI iş akışı ve Dependabot yapılandırması |
+| `src/components/` | Page sections, forms, and interface components |
+| `src/data.jsx` | Service and FAQ content |
+| `src/config.js` | Contact details and WhatsApp links |
+| `src/components/LegalPage.jsx` | Draft legal pages |
+| `public/` | Logo and static 404 page |
+| `nginx/` | Production server configuration |
+| `.github/` | CI workflow and Dependabot configuration |
 
-İletişim ve içerik değişiklikleri üretim derlemesine dahil edilir; değişikliklerden sonra imajı yeniden oluşturun.
+Contact and content changes are included in the production build. Rebuild the image after changing them.
 
-## Yayın öncesi
+## Before launch
 
-Yasal sayfalar taslaktır. İşletme unvanı ve iletişim bilgileri, kişisel veri işleme ve aktarım koşulları, iptal ve iade uygulamaları ile logo kullanım hakları doğrulanmalı; metinler yetkin bir hukuk danışmanı tarafından incelenmelidir. Kalan maddeler ve kaynaklar [LEGAL-READINESS.md](LEGAL-READINESS.md) dosyasındadır. Erişilebilirlik için kapsamlı kullanıcı ve yardımcı teknoloji testleri de yapılmalıdır.
+The legal pages are drafts. Verify the business name and contact details, personal data processing and transfer arrangements, cancellation and refund practices, and rights to the logo. Have qualified legal counsel review the policies. See [LEGAL-READINESS.md](LEGAL-READINESS.md) for outstanding items and sources. Comprehensive user and assistive technology testing is also needed to assess accessibility.
