@@ -20,8 +20,12 @@ This is a technical audit and draft, not a determination of legal compliance. Do
 ## Primary references
 
 - [Turkish Data Protection Authority: notice obligation](https://www.kvkk.gov.tr/Icerik/2033/Aydinlatma-Yukumlulugu-)
+- [Turkish Data Protection Authority: notice guidance and accessibility](https://www.kvkk.gov.tr/Icerik/6765/AYDINLATMA-YUKUMLULUGUNUN-YERINE-GETIRILMESI-HAKKINDA-KAMUOYU-DUYURUSU)
 - [Turkish Data Protection Authority: separate notices and consent](https://www.kvkk.gov.tr/Icerik/8710/veri-sorumlulari-tarafindan-acik-riza-ve-aydinlatma-metinlerinin-ayri-ayri-duzenlenmesi-gerektigi-hakkinda-kisisel-verileri-koruma-kurulunun-18-02-2026-tarihli-ve-2026-347-sayili-ilke-kararina-iliskin-kamuoyu-duyurusu)
 - [Turkish Data Protection Authority: cookie guidance](https://www.kvkk.gov.tr/Icerik/7353/Cerez-Uygulamalari-Hakkinda-Rehber)
+- [Turkish Data Protection Authority: cookie decision and opt-in](https://www.kvkk.gov.tr/Icerik/7595/2022-1358)
 - [Turkish Data Protection Authority: international transfers](https://www.kvkk.gov.tr/Icerik/2053/Yurtdisina-Aktarim)
 - [Turkish Ministry of Trade: distance contracts](https://tuketici.ticaret.gov.tr/yayinlar/tuketici-bilgi-rehberi/mesafeli-sozlesmeler-hakkinda-bilgilendirme)
 - [GDPR, including Article 13](https://eur-lex.europa.eu/eli/reg/2016/679)
+- [European Data Protection Board: GDPR territorial scope](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-32018-territorial-scope-gdpr-article-3-version_en)
+- [European Data Protection Board: ePrivacy technical scope](https://www.edpb.europa.eu/system/files/2023-11/edpb_guidelines_202302_technical_scope_art_53_eprivacydirective_en.pdf)
