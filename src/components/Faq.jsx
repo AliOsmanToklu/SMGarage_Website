@@ -12,7 +12,9 @@ export default function Faq() {
           {FAQ.map(([q, a], i) => (
             <div className={`qa${open === i ? ' is-open' : ''}`} key={q}>
               <button className="qa__q" aria-expanded={open === i} aria-controls={`answer-${i}`} onClick={() => setOpen(open === i ? -1 : i)}>{q}<i aria-hidden="true" /></button>
-              <div className="qa__a" id={`answer-${i}`} hidden={open !== i}><p>{a}</p></div>
+              <div className="qa__a" id={`answer-${i}`} aria-hidden={open !== i} inert={open !== i ? true : undefined}>
+                <div className="qa__a-inner"><p>{a}</p></div>
+              </div>
             </div>
           ))}
         </div>

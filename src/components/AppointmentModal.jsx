@@ -1,13 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { buildMessage } from '../config';
 import { SERVICE_OPTIONS } from '../data';
 import { useDialogFocus } from '../lib/dialog';
 import { Check, FloatField, Logo } from './ui';
 import { WhatsappIcon } from './Icons';
-import { useWhatsAppForm, validateContact, WhatsAppSent } from './forms';
+import { localDate, useWhatsAppForm, validateContact, WhatsAppSent } from './forms';
 
 const EMPTY = { name: '', vehicle: '', year: '', service: SERVICE_OPTIONS[0].items[0], date: '', message: '', kvkk: false };
-const today = () => new Date().toISOString().slice(0, 10);
 
 const toMessage = v => buildMessage('randevu almak istiyorum.', [
   ['Ad Soyad', v.name],
@@ -18,8 +17,9 @@ const toMessage = v => buildMessage('randevu almak istiyorum.', [
   ['Not', v.message],
 ]);
 
-export default function AppointmentModal({ open, preset, onClose }) {
+export default function AppointmentModal({ open, preset, onClose, returnFocusRef }) {
   const rootRef = useRef(null);
+  const dateErrorId = useId();
   const { values, setValues, errors, sentUrl, bind, submit } = useWhatsAppForm(EMPTY, validateContact, toMessage);
 
   // Hizmet kartından / hesaplayıcıdan gelen ön seçimler
@@ -27,7 +27,7 @@ export default function AppointmentModal({ open, preset, onClose }) {
     if (open && preset) setValues(v => ({ ...v, ...(preset.service && { service: preset.service }), ...(preset.vehicle && { vehicle: preset.vehicle }) }));
   }, [open, preset, setValues]);
 
-  useDialogFocus(open, rootRef, onClose);
+  useDialogFocus(open, rootRef, onClose, returnFocusRef);
 
   if (!open) return null;
 
@@ -45,7 +45,7 @@ export default function AppointmentModal({ open, preset, onClose }) {
           <FloatField label="Ad Soyad (isteğe bağlı)" autoComplete="name" {...bind('name')} />
           <div className="row2">
             <FloatField label="Araç Marka / Model" {...bind('vehicle')} />
-            <FloatField label="Model Yılı" inputMode="numeric" {...bind('year')} />
+            <FloatField label="Model Yılı" inputMode="numeric" maxLength={4} error={errors.year} {...bind('year')} />
           </div>
           <div className="row2">
             <label className="field"><span>Hizmet</span>
@@ -55,8 +55,10 @@ export default function AppointmentModal({ open, preset, onClose }) {
                 ))}
               </select>
             </label>
-            <label className="field"><span>Tercih Edilen Tarih</span><input type="date" min={today()} {...bind('date')} /></label>
+            <div><label className="field"><span>Tercih Edilen Tarih</span><input type="date" min={localDate()} aria-invalid={!!errors.date} aria-describedby={errors.date ? dateErrorId : undefined} {...bind('date')} /></label>
+              {errors.date && <span id={dateErrorId} className="field-error" role="alert">{errors.date}</span>}</div>
           </div>
+          <details className="field-help"><summary>Tarih seçimi hakkında</summary><p>Bu tarih bir tercihtir; randevu talebiniz işletme tarafından ayrıca teyit edilir.</p></details>
           <FloatField label="Mesajınız" textarea rows={3} {...bind('message')} />
           <p className="form-notice">Bilgileriniz WhatsApp'ta bir mesaj olarak hazırlanır; göndermeyi orada siz seçersiniz. WhatsApp kendi koşullarına göre veri işleyebilir. <a href="#/gizlilik" target="_blank" rel="noopener">Gizlilik ve KVKK aydınlatma metni</a></p>
           <Check checked={values.kvkk} onChange={bind('kvkk').onChange} error={errors.kvkk}>Yazdığım bilgilerin WhatsApp'a aktarılacağını anladım ve devam etmek istiyorum.</Check>

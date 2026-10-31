@@ -1,7 +1,7 @@
-import { asset } from '../lib/utils';
-import { GALLERY, MARQUEE, SERVICES, STATS, STEPS } from '../data';
+import { MARQUEE, SERVICES, STEPS } from '../data';
 import { Eyebrow, Lines, useAppointment } from './ui';
-import { ArrowIcon, CheckIcon, WrenchPath } from './Icons';
+import { ArrowIcon, CheckIcon } from './Icons';
+import '../craft.css';
 
 export function Marquee() {
   const row = MARQUEE.flatMap(t => [<span key={t}>{t}</span>, <i key={`${t}-i`}>/</i>]);
@@ -48,7 +48,7 @@ export function About() {
         </div>
         <div className="about__content">
           <Eyebrow>SM Garage Hakkında</Eyebrow>
-          <Lines lines={['Yazılımda usta,', <em key="e">mekanikte uzman.</em>]} />
+          <Lines lines={['Yazılım ve mekanik', <em key="e">bir arada.</em>]} />
           <p className="about__scrub" id="aboutScrub">
             {ABOUT_TEXT.split(' ').map((w, i) => <span className="w" key={i}>{w} </span>)}
           </p>
@@ -71,16 +71,15 @@ export function Services() {
         <div className="services__head container">
           <div>
             <Eyebrow>ECU Yazılım & Mekanik Onarım</Eyebrow>
-            <Lines lines={[<>Hizmet<em>lerimiz</em></>]} />
+            <Lines lines={['Aracınız için', <em key="e">hizmetler.</em>]} />
           </div>
-          <div className="services__progress"><span id="svcCur">01</span><i><b id="svcBar" /></i><span>{String(SERVICES.length).padStart(2, '0')}</span></div>
+          <p className="services__intro">İhtiyacınız olan işlemi seçin; araç ve hizmet detaylarını randevu talebinizde paylaşın.</p>
         </div>
         <div className="services__track" id="svcTrack">
           {SERVICES.map((s, i) => (
-            <article className="svc" data-tilt="" key={s.title}>
-              <div className="svc__glow" />
-              <span className="svc__num">{String(i + 1).padStart(2, '0')}</span>
-              <div className="svc__icon"><svg viewBox="0 0 64 64">{s.icon}</svg></div>
+            <article className="svc" key={s.title}>
+              <span className="svc__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div className="svc__icon" aria-hidden="true"><svg viewBox="0 0 64 64">{s.icon}</svg></div>
               <span className="svc__tag">{s.tag}</span>
               <h3>{s.title}</h3>
               <p>{s.desc}</p>
@@ -89,32 +88,9 @@ export function Services() {
             </article>
           ))}
           <article className="svc svc--cta">
-            <h3>Aracınız için en doğru çözümü birlikte bulalım.</h3>
-            <button className="btn btn--primary btn--lg magnetic" data-cursor="hover" onClick={() => openAppointment()}><span>Randevu alın</span></button>
+            <div><span className="svc__tag">Bir sorunuz mu var?</span><h3>Aracınızın ihtiyacını birlikte değerlendirelim.</h3></div>
+            <button className="btn btn--primary btn--lg" onClick={() => openAppointment()}><span>Randevu alın</span></button>
           </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Stats() {
-  return (
-    <section className="stats section" id="performans">
-      <div className="stats__bg" aria-hidden="true" />
-      <div className="container">
-        <div className="stats__head">
-          <Eyebrow>Rakamlarla SM Garage</Eyebrow>
-          <Lines lines={['SM Garage ile', <em key="e">yüksek performans.</em>]} />
-        </div>
-        <div className="stats__grid">
-          {STATS.map(s => (
-            <div className="stat" data-reveal="" key={s.title}>
-              <svg className="stat__ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" /><circle className="p" cx="60" cy="60" r="52" data-pct={s.pct} /></svg>
-              <div className="stat__val"><b data-count={s.count} data-prefix={s.prefix} data-suffix={s.suffix}>0</b></div>
-              <h4>{s.title}</h4><p>{s.text}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -127,7 +103,7 @@ export function Process() {
       <div className="section__num" aria-hidden="true">03</div>
       <div className="container">
         <Eyebrow>Nasıl Çalışıyoruz?</Eyebrow>
-        <Lines lines={['4 adımda', <em key="e">güvenli servis.</em>]} />
+        <Lines lines={['4 adımda', <em key="e">servis süreci.</em>]} />
         <div className="process__list" id="processList">
           <div className="process__line"><i id="processFill" /></div>
           {STEPS.map(([title, text], i) => (
@@ -135,31 +111,6 @@ export function Process() {
               <div className="step__dot"><span>{String(i + 1).padStart(2, '0')}</span></div>
               <div className="step__body"><h4>{title}</h4><p>{text}</p></div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Gallery() {
-  return (
-    <section className="gallery section" id="galeri">
-      <div className="container">
-        <div className="gallery__head">
-          <div>
-            <Eyebrow>Galeri</Eyebrow>
-            <Lines lines={['Atölyeden', <em key="e">kareler.</em>]} />
-          </div>
-          <p data-reveal="">Dyno odası, yazılım istasyonu ve mekanik atölyemizden seçilmiş çalışmalar.</p>
-        </div>
-        <div className="gallery__grid">
-          {GALLERY.map(g => (
-            <figure className={`g${g.tall ? ' g--tall' : ''}`} data-reveal-clip="" data-cursor="view" key={g.img}>
-              <div className="g__img" style={{ backgroundImage: `url('${asset(g.img)}')` }} />
-              <div className="g__ph" aria-hidden="true"><svg viewBox="0 0 64 64"><path d={WrenchPath} /></svg></div>
-              <figcaption><span>{g.label}</span><b lang={g.en ? 'en' : undefined}>{g.title}</b></figcaption>
-            </figure>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { CONTACT, whatsappUrl } from '../config';
 import { NAV } from '../data';
 import { useDialogFocus } from '../lib/dialog';
@@ -35,6 +35,18 @@ export function Overlays() {
 
 export function Header({ menuOpen, onToggleMenu }) {
   const openAppointment = useAppointment();
+  useEffect(() => {
+    const header = document.getElementById('header');
+    let previous = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 180 || menuOpen || header.contains(document.activeElement)) header.classList.remove('is-hidden');
+      else if (Math.abs(y - previous) > 6) header.classList.toggle('is-hidden', y > previous);
+      previous = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [menuOpen]);
   return (
     <header className="header" id="header">
       <div className="topbar">
@@ -52,9 +64,9 @@ export function Header({ menuOpen, onToggleMenu }) {
       </div>
       <nav className="nav">
         <div className="container nav__inner">
-          <a href="#top" className="logo" data-cursor="hover" aria-label="SM Garage anasayfa"><Logo className="" /></a>
+          <a href="/#top" className="logo" data-cursor="hover" aria-label="SM Garage anasayfa"><Logo className="" /></a>
           <ul className="nav__links">
-            {NAV.map(([href, text]) => <li key={href}><a href={href} data-text={text}>{text}</a></li>)}
+            {NAV.map(([href, text]) => <li key={href}><a href={`/${href}`} data-text={text}>{text}</a></li>)}
           </ul>
           <button className="btn btn--primary btn--sm magnetic" data-cursor="hover" onClick={() => openAppointment()}><span>Randevu Al</span></button>
           <button className={`burger${menuOpen ? ' is-open' : ''}`} aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'} aria-expanded={menuOpen} aria-controls="mmenu" onClick={onToggleMenu}>
@@ -79,7 +91,7 @@ export function MobileMenu({ open, onClose }) {
       <button className="mmenu__close" onClick={onClose}>Menüyü kapat</button>
       <ul className="mmenu__links">
         {NAV.map(([href, text], i) => (
-          <li key={href}><a href={href} onClick={onClose}><em>{String(i + 1).padStart(2, '0')}</em>{text === 'Tuning Hesaplama' ? 'Hesaplama' : text}</a></li>
+          <li key={href}><a href={`/${href}`} onClick={onClose}><em>{String(i + 1).padStart(2, '0')}</em>{text}</a></li>
         ))}
       </ul>
       <div className="mmenu__foot">
@@ -95,9 +107,9 @@ export function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__top">
-          <a href="#top" className="logo" aria-label="SM Garage anasayfa"><Logo className="" /></a>
+          <a href="/#top" className="logo" aria-label="SM Garage anasayfa"><Logo className="" /></a>
           <ul className="footer__links">
-            {NAV.map(([href, text]) => <li key={href}><a href={href}>{text}</a></li>)}
+            {NAV.map(([href, text]) => <li key={href}><a href={`/${href}`}>{text}</a></li>)}
           </ul>
         </div>
         <div className="footer__giant" aria-hidden="true"><span id="giant">SM GARAGE</span></div>
@@ -106,7 +118,7 @@ export function Footer() {
           <span>ECU Yazılım · Mekanik Onarım · <a href={CONTACT.instagramUrl} target="_blank" rel="noopener">@{CONTACT.instagram}</a></span>
         </div>
         <nav className="legal-links" aria-label="Yasal bilgiler">
-          <a href="#/gizlilik">Gizlilik ve KVKK</a><a href="#/kosullar">Kullanım koşulları</a><a href="#/cerezler">Çerez politikası</a><a href="#/iade">İptal ve iade</a>
+          <a href="/#/gizlilik">Gizlilik ve KVKK</a><a href="/#/kosullar">Kullanım koşulları</a><a href="/#/cerezler">Çerez politikası</a><a href="/#/iade">İptal ve iade</a>
         </nav>
       </div>
     </footer>

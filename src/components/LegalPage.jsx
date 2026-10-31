@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { CONTACT } from '../config';
+import { RecoveryPage } from './Feedback';
 
 const pages = {
   gizlilik: {
@@ -47,9 +48,13 @@ const pages = {
 
 export default function LegalPage({ page }) {
   const content = pages[page];
-  useEffect(() => { window.scrollTo(0, 0); }, [page]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.getElementById('top')?.focus({ preventScroll: true });
+  }, [page]);
+  if (!content) return <RecoveryPage />;
   return <main id="top" className="legal-page" tabIndex={-1}><div className="container legal__inner">
-    <a className="legal__back" href="#top">← Ana sayfaya dön</a>
-    {content ? <><h1>{content.title}</h1>{content.body}</> : <><h1>Sayfa bulunamadı</h1><p>Aradığınız sayfa mevcut değil.</p></>}
+    <a className="legal__back" href="/#top">← Ana sayfaya dön</a>
+    <h1>{content.title}</h1>{content.body}
   </div></main>;
 }

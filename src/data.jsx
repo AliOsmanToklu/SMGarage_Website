@@ -19,7 +19,7 @@ export const SERVICES = [
   {
     tag: 'ECU', title: 'Chip Tuning', option: 'Chip Tuning',
     desc: 'Araç ve motor durumuna göre motor haritalarının değerlendirilmesi ve kalibrasyonu.',
-    chips: ['Stage 1 / Stage 2', 'Dyno raporu'],
+    chips: ['Stage 1 / Stage 2', 'Araç değerlendirmesi'],
     icon: <><rect x="18" y="18" width="28" height="28" rx="4" /><path d="M24 18v-8M32 18v-8M40 18v-8M24 54v-8M32 54v-8M40 54v-8M18 24h-8M18 32h-8M18 40h-8M54 24h-8M54 32h-8M54 40h-8" /><path d="M27 36l5-8 5 8" /></>,
   },
   {
@@ -66,20 +66,12 @@ export const SERVICES = [
   },
 ];
 
-export const STATS = [];
-
 export const STEPS = [
   ['Arıza Tespit & Ön Kontrol', 'Talebiniz ve aracınızın durumu değerlendirilir; gerekli kontroller belirlenir.'],
   ['Teklif & Onay', 'İşe başlamadan önce işlem kapsamını, parçaları ve maliyeti görüşün.'],
   ['Onarım & Yazılım', 'Onaylanan işlemler araç ve hizmetin ihtiyaçlarına göre yürütülür.'],
   ['Kontrol & Teslim', 'İşlemler ve teslim koşulları hakkında bilgi alabilirsiniz.'],
 ];
-
-// Fotoğraflar yalnızca kullanım hakları doğrulandıktan sonra eklenmelidir.
-export const GALLERY = [];
-
-// Yorumlar yalnızca gerçekliği ve yayın izni doğrulandıktan sonra eklenmelidir.
-export const TESTIMONIALS = [];
 
 export const FAQ = [
   ['Chip tuning motora zarar verir mi?', 'Yazılım değişiklikleri aracın mekanik durumuna, garanti koşullarına ve kullanımına göre riskler taşıyabilir. İşlem öncesinde aracınızı ve seçenekleri değerlendirmek için bizimle görüşün.'],
@@ -88,6 +80,3 @@ export const FAQ = [
   ['Sadece mekanik onarım da yapıyor musunuz?', 'Evet. Periyodik bakımdan motor revizyonuna, şanzıman ve turbo onarımından fren ve süspansiyona kadar tüm mekanik işlemleri yapıyoruz.'],
   ['Chip tuning yakıt tüketimini nasıl etkiler?', 'Tüketim araç, kalibrasyon ve sürüş koşullarına bağlıdır; belirli bir tasarruf garanti edilemez.'],
 ];
-
-// Hesaplayıcıya yalnızca doğrulanmış veriler eklenmelidir.
-export const CARS = {};

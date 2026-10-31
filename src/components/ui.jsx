@@ -28,11 +28,15 @@ export const Split = ({ text, className }) => (
 
 export const FloatField = ({ label, error, textarea, ...props }) => {
   const Tag = textarea ? 'textarea' : 'input';
+  const errorId = useId();
   return (
-    <label className={`field field--float${error ? ' is-error' : ''}`}>
-      <Tag placeholder=" " {...props} />
-      <span>{label}</span>
-    </label>
+    <div>
+      <label className={`field field--float${error ? ' is-error' : ''}`}>
+        <Tag placeholder=" " aria-invalid={!!error} aria-describedby={error ? errorId : undefined} {...props} />
+        <span>{label}</span>
+      </label>
+      {error && <span id={errorId} className="field-error" role="alert">{error}</span>}
+    </div>
   );
 };
 
