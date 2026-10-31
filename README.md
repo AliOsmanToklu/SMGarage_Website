@@ -45,7 +45,7 @@ curl http://localhost:8080/healthz
 
 The site is available at `http://localhost:8080` by default. Change the host port with `WEB_PORT` in `.env`. Run `docker compose down` to stop the service. The application is stateless and does not require a data volume.
 
-See the [deployment guide](DEPLOYMENT.md) for AWS EC2, Application Load Balancer, and HTTPS setup. In production, follow the guide's network and TLS configuration instead of exposing the HTTP port directly.
+See the [deployment guide](DEPLOYMENT.md) for AWS EC2 and automatic HTTPS using Caddy. The HTTPS configuration keeps the application port local to the server.
 
 ## Project structure
 
