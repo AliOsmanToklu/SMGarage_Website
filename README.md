@@ -1,33 +1,22 @@
-# SM Garage — Web Sitesi
+# SM Garage web sitesi
 
-React + Vite ile hazırlanmış, GSAP/Lenis animasyonlu tek sayfa site.
+React ve Vite ile hazırlanmış statik bir Türkçe servis sitesi. İletişim ve randevu formları bilgileri tarayıcıda bir WhatsApp mesajına dönüştürür; site bir veritabanına veya uygulama sunucusuna form verisi göndermez.
 
-## Komutlar
+## Yerel geliştirme
+
+Node.js 24 kullanın:
 
 ```bash
-npm install      # ilk kurulumda bir kez
-npm run dev      # geliştirme sunucusu → http://localhost:5173
-npm run build    # yayın için derler → dist/ klasörü
-npm run preview  # derlenmiş siteyi yerelde önizler
+npm ci
+npm run dev
+npm run build
+npm run preview
 ```
 
-Yayına almak için `npm run build` sonrası oluşan **`dist/`** klasörünün içeriğini hostinge yükleyin.
+İletişim bilgileri `src/config.js`, hizmet ve SSS içeriği `src/data.jsx`, yasal sayfalar `src/components/LegalPage.jsx` içindedir. Değişiklikler üretim derlemesine dahil edilir.
 
-## Nereden ne düzenlenir?
+## Yayın öncesi
 
-| Ne | Dosya |
-|---|---|
-| Telefon, WhatsApp, adres, Instagram, saatler | `src/config.js` |
-| Hizmetler, SSS, yorumlar, galeri, rakamlar, hesaplayıcı araçları | `src/data.jsx` |
-| Tecrübe yılı rozeti | `src/components/Sections.jsx` → `EXPERIENCE_YEARS` |
-| Logo ve fotoğraflar | `public/img/` (`logo.png`, `galeri-1.jpg` … `galeri-5.jpg`) |
-| Stiller | `src/styles.css` |
-| Kaydırma / açılış animasyonları | `src/lib/animations.js` |
+Yasal sayfalar taslaktır. İşletme bilgileri, veri işleme, iade koşulları ve logo hakları doğrulanıp hukuk danışmanı tarafından incelenmeden yayınlamayın. Ayrıntılar ve kaynaklar [LEGAL-READINESS.md](LEGAL-READINESS.md) dosyasındadır. Örnek yorumlar, doğrulanmamış performans verileri ve eksik galeri fotoğrafları gösterilmez.
 
-## Randevu → WhatsApp
-
-Randevu penceresi ve iletişim formu, doldurulan bilgileri hazır bir mesaj olarak
-`config.js` içindeki WhatsApp numarasına yönlendirir. Hizmet kartlarındaki ve
-tuning hesaplayıcıdaki "Randevu Al" butonları seçilen hizmeti/aracı forma otomatik doldurur.
-
-> `_eski/` klasörü React öncesi sürümdür; ihtiyaç kalmadıysa silinebilir.
+Docker ve AWS üzerinde HTTPS ile yayınlama adımları için [DEPLOYMENT.md](DEPLOYMENT.md) dosyasına bakın.
